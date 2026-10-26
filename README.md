@@ -1,0 +1,72 @@
+# @geomelon/ukraine
+
+City, region, and country data for **Ukraine** — 30648 cities across 28 regions, with names translated into 50 languages, sourced from Wikidata.
+
+## Install
+
+```bash
+npm install @geomelon/ukraine
+```
+
+## Usage
+
+```js
+const ukraine = require('@geomelon/ukraine')
+
+ukraine.cities({ name: '<your search prefix>' })   // matches the primary name or any translation
+ukraine.cities({ minPopulation: 1000000 })
+ukraine.city('Q1492')                              // by Geomelon id or Wikidata id
+ukraine.regions({ name: '<your search prefix>' })
+ukraine.country                                    // country-level fields
+ukraine.meta                                       // generatedAt, recordCount, license, source
+```
+
+## Filters
+
+`cities(filter?)`:
+| field | type | matches |
+|---|---|---|
+| `name` | `string` | case-insensitive prefix match against the primary name and every translation |
+| `regionId` | `string` | exact match |
+| `minPopulation` / `maxPopulation` | `number` | inclusive range |
+| `language` | `string` | city has a translation in this language |
+| `settlementType` | `string` | exact match against one of the city's settlement types |
+| `limit` | `number` | caps the result count |
+
+`regions(filter?)` supports `name` and `limit`.
+
+## Languages
+
+Names are translated into: Afrikaans (`af`), Albanian (`sq`), Arabic (`ar`), Armenian (`hy`), Azerbaijani (`az`), Bangla (`bn`), Basque (`eu`), Bokmål (`nb`), Bulgarian (`bg`), Catalan (`ca`), Chinese (`zh`), Croatian (`hr`), Czech (`cs`), Danish (`da`), Dutch (`nl`), English (`en`), Estonian (`et`), Finnish (`fi`), French (`fr`), Galician (`gl`), Georgian (`ka`), German (`de`), Hebrew (`he`), Hindi (`hi`), Hungarian (`hu`), Indonesian (`id`), Italian (`it`), Japanese (`ja`), Kazakh (`kk`), Korean (`ko`), Latvian (`lv`), Lithuanian (`lt`), Malay (`ms`), Modern Greek (`el`), Mongolian (`mn`), Persian (`fa`), Polish (`pl`), Portuguese (`pt`), Romanian (`ro`), Russian (`ru`), Serbian (`sr`), Slovak (`sk`), Slovene (`sl`), Spanish (`es`), Swedish (`sv`), Thai (`th`), Turkish (`tr`), Ukrainian (`uk`), Uzbek (`uz`), Vietnamese (`vi`).
+
+Coverage is capped to the 50 languages above — a widely-spoken top-50 set plus Ukraine's own official language(s) — to keep package size reasonable. The full long tail of rarer Wikidata-only translations isn't included.
+
+The raw JSON is still available directly if you'd rather roll your own queries:
+```js
+const data = require('@geomelon/ukraine/data.json')
+```
+
+## FAQ
+
+**Q: I want live geographical city data with multiple translations available, where do I get that from?**
+Use the Geomelon API — a live, searchable database of cities, countries, and regions — see the [API Docs](https://geomelon.dev/api-docs/) or try it on [RapidAPI](https://rapidapi.com/hom3chuk/api/geomelon).
+
+**Q: I want geo data on all countries, where do I get that?**
+For other countries as static npm packages, see the growing list at [Data Packages](https://geomelon.dev/data-packages/). If you want every country in one place right now instead of installing packages one at a time, use the [Geomelon API](https://geomelon.dev/api-docs/).
+
+**Q: I need a simple way to implement city autocomplete in multiple languages, how do I do that?**
+Use the [Geomelon Free City Autocomplete API](https://geomelon.dev/free-city-autocomplete-api/) — keyless, prefix search, pre-built for this exact use case.
+
+**Q: I want to integrate geo data into our product, what libraries can I use?**
+See [geomelon.dev/libraries](https://geomelon.dev/libraries/) for the full list. Official clients: [TypeScript](https://github.com/930m310n/typescript) (`geomelon` on npm), [Python](https://github.com/930m310n/python) (`geomelon` on PyPI), [React](https://github.com/930m310n/geomelon-react) (`geomelon-react` on npm).
+
+**Q: I want this data outside npm, e.g. for ML/NLP work?**
+The same per-country data is also published as a [Hugging Face dataset](https://huggingface.co/datasets/geomelon/cities) — one config per country, loaded with `datasets.load_dataset("geomelon/cities", "ukraine")`.
+
+## License
+
+The data (`data.json`) is dedicated to the public domain under [CC0 1.0](./LICENSE) — free to use, no attribution required. The loader code (`index.js`/`index.d.ts`) is MIT-licensed. See [ATTRIBUTION.md](./ATTRIBUTION.md) for the data's (optional) credit line.
+
+## Source
+
+Generated from [geomelon.dev](https://geomelon.dev) — an API and dataset built on [Wikidata](https://www.wikidata.org). See the full live API on [RapidAPI](https://rapidapi.com/hom3chuk/api/geomelon).
